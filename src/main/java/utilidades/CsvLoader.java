@@ -1,0 +1,72 @@
+package utilidades;
+
+import modelo.Viaje;
+import modelo.Viajero;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import servicios.TipoAbono;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.spi.ToolProvider.findFirst;
+
+public class CsvLoader {
+
+    private static final Logger log = LoggerFactory.getLogger(CsvLoader.class);
+
+    public static List<Viajero> cargarViajeros(String ruta) throws IOException {
+        log.info("Cargando viajeros desde {}", "src/main/resources/viajeros.csv");
+        return Files.lines(Path.of("src/main/resources/viajeros.csv"))
+                .skip(1) // ignorar cabecera
+                .map(linea -> {
+                    List<String> c = List.of(linea.split(","));
+                    return new Viajero(
+                            c.get(0),
+                            c.get(1),
+                            Integer.parseInt(c.get(2)),
+                            c.get(3),
+                            TipoAbono.valueOf(c.get(4)),
+                            Integer.parseInt(c.get(5))
+                    );
+                })
+                .peek(v -> log.debug("Viajero cargado: {}", v.getDni()))
+                .collect(Collectors.toList());
+    }
+
+    public static List<Viaje> cargarViajes(String ruta, List<Viajero> viajeros) throws IOException {
+        log.info("Cargando viajes desde {}", "src/main/resources/viajes.csv");
+
+        return Files.lines(Path.of("src/main/resources/viajes.csv"))
+                .skip(1) // ignorar cabecera
+                .map(linea -> {
+                    List<String> c = List.of(linea.split(","));
+
+                    //Buscamos el Viajero con el dni que viene en el fichero
+                    Viajero viajero = viajeros.stream()
+                            .filter(v -> v.getDni().equals(c.get(1)))
+                            .findFirst()
+                            .orElseThrow(() -> new RuntimeException("Viajero no encontrado: " + c.get(1)));
+
+                    return new Viaje(
+                            Long.parseLong(c.get(0)),
+                            viajero,
+                            c.get(3),
+                            c.get(4),
+                            c.get(5),
+                            LocalDate.parse(c.get(6)),
+                            LocalTime.parse(c.get(7)),
+                            Integer.parseInt(c.get(8)),
+                            Double.parseDouble(c.get(9)),
+                            Boolean.parseBoolean(c.get(10))
+                    );
+                })
+                .peek(v -> log.debug("Viaje cargado: {}", v.getId()))
+                .collect(Collectors.toList());
+    }
+}
