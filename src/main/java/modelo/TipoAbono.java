@@ -1,4 +1,4 @@
-package servicios;
+package modelo;
 
 public enum TipoAbono {
     MENSUAL,

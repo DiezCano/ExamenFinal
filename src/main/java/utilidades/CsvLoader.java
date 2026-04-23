@@ -4,7 +4,7 @@ import modelo.Viaje;
 import modelo.Viajero;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import servicios.TipoAbono;
+import modelo.TipoAbono;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,8 +13,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static java.util.spi.ToolProvider.findFirst;
 
 public class CsvLoader {
 

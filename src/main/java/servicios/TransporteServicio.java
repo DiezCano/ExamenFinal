@@ -5,7 +5,9 @@ import modelo.Viajero;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
+
 
 public class TransporteServicio {
 
@@ -43,10 +45,19 @@ public class TransporteServicio {
     // Consulta 3 — Primer viaje del día
 
     // Consulta 4 — Viajes largos
-
+    List<Viaje> getViajesLargos(int minutos) {
+            return viajes.stream()
+                    .filter(viaje -> viaje.getDuracionMinutos() > 90)
+                    .sorted(Comparator.comparing(Viaje::getDuracionMinutos))
+                    .toList();
+    }
     // Consulta 5 — Top 5 viajes más largos
 
     // Consulta 6 — Gasto total por viajero
+    //Map<String, Double> getGastoTotalPorduracion() {
+            //return viajeros.stream()
+                    //.collect(Collectors.groupingBy(Viajero::getNombre))
+    // }
 
     // Consulta 7 — Duration media por Linea
 
