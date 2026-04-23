@@ -3,11 +3,7 @@ package servicios;
 import modelo.Viaje;
 import modelo.Viajero;
 
-import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-
 
 public class TransporteServicio {
 
@@ -30,7 +26,9 @@ public class TransporteServicio {
                     .orElseThrow(() -> new RuntimeException("Viajero no encontrado: " + dni));
         }
 
-        // ... métodos de consulta de Streams
+
+                                    // === Consultas Streams ===
+
 
     // Consulta 1 — Viajes de una línea concreta ordenados por hora
     public List<Viaje> getViajesPorLinea(String Linea) {
@@ -45,7 +43,7 @@ public class TransporteServicio {
     // Consulta 3 — Primer viaje del día
 
     // Consulta 4 — Viajes largos
-    List<Viaje> getViajesLargos(int minutos) {
+    public List<Viaje> getViajesLargos(int minutos) {
             return viajes.stream()
                     .filter(viaje -> viaje.getDuracionMinutos() > 90)
                     .sorted(Comparator.comparing(Viaje::getDuracionMinutos))

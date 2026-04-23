@@ -6,7 +6,6 @@ import servicios.TransporteServicio;
 import utilidades.CsvLoader;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 public class main {
@@ -19,6 +18,12 @@ public class main {
 
         System.out.println(" == 1 == ");
         servicio.getViajesPorLinea("L1").forEach(System.out::println);
+
+        System.out.println(" == 2 == ");
+        servicio.getViajesPorLinea("L1").forEach(System.out::println);
+
+        // No te he hecho el menu por que para la verguenza
+        // que he hecho no valia la pena malgastar tu tiempo
 
 
 
